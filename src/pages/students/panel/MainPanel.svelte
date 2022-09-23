@@ -1,0 +1,151 @@
+<script>
+    import StudentAdminPanel from "../../../layouts/StudentAdminPanel.svelte";
+    import axios from "axios";
+    import {baseStudentsUrl} from "../../../utils/consts.js";
+    import {userD} from "../../../utils/auth.js";
+    import {toast} from "@zerodevx/svelte-toast";
+    import {onMount} from "svelte";
+
+    let userObject = {
+        name: '',
+        family: '',
+        email: '',
+        phone: '',
+        id_code: '',
+        stud_code: '',
+        bio: '',
+    }
+
+    userD.subscribe(v => {
+        userObject = {
+            name: v.user.name,
+            family: v.user.family,
+            email: v.user.email,
+            phone: v.user.phone,
+            id_code: v.user.id_code,
+            stud_code: v.user.stud_code,
+            bio: v.user.bio,
+        }
+    })
+
+    let avatar, fileinput;
+
+    console.log(userObject)
+
+    const updateProfile = () => {
+        axios({
+            url: `${baseStudentsUrl}profile/update/`,
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + $userD.access
+            },
+            data: JSON.stringify(userObject)
+        }).then(r => {
+            if (r.status === 200) {
+                toast.push('profile updated')
+                $userD.user = r.data
+                console.log(r.data)
+            }
+        })
+
+
+    }
+    const onFileSelected = async (e) => {
+        let image = e.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(image);
+
+        reader.onload = async e => {
+            avatar = e.target.result
+
+            const obj = {
+                hello: "world"
+            };
+            const json = JSON.stringify(obj);
+
+            const data = new FormData();
+            data.append("image", avatar);
+
+            await fetch(`${baseStudentsUrl}profile/update/avatar/file/`, {
+                method: "POST",
+                headers: [["Content-Type", "multipart/form-data"], ['Authorization', 'Bearer ' + $userD.access]],
+                body: data
+            })
+                .then(response => {
+                    // Successfully uploaded
+                    console.log(response.json())
+                })
+                .catch(error => {
+                    // Upload failed
+                    console.log(error)
+                });
+
+        };
+    }
+</script>
+
+<StudentAdminPanel>
+    <div slot="title">
+        <h3 class="my-1">personal information</h3>
+    </div>
+    <div slot="content">
+        <div class="d-flex justify-content-center">
+            <input style="display: none" name="avatar" bind:this={fileinput} type="file" accept=".jpg, .jpeg, .png"
+                   on:change={(e)=>onFileSelected(e)}>
+            {#if avatar}
+                <img src={avatar} alt=""
+                     class="rounded-circle profile-edit-image m-5" on:click={()=>{
+                     fileinput.click()
+                 }}>
+            {:else }
+                <img src="https://gdb.rferl.org/FD93574C-4AF6-4774-928A-B94D300111A5_w408_r1_s.jpg" alt=""
+                     class="rounded-circle profile-edit-image m-5" on:click={()=>{
+                     fileinput.click()
+                 }}>
+            {/if}
+        </div>
+        <div class="row">
+            <div class="my-2 col-md-6">
+                <label class="form-label text-white">First Name:</label>
+                <input bind:value={userObject.name} type="text" class="form-control"
+                       aria-describedby="emailHelp">
+            </div>
+            <div class="my-2 col-md-6">
+                <label class="form-label text-white">Family Name:</label>
+                <input bind:value={userObject.family} type="text" class="form-control"
+                       aria-describedby="emailHelp">
+            </div>
+        </div>
+        <div class="row">
+            <div class="my-2  col-md-6">
+                <label class="form-label text-white">Email address:</label>
+                <input bind:value={userObject.email} type="email" class="form-control" aria-describedby="emailHelp">
+            </div>
+            <div class="my-2  col-md-6">
+                <label class="form-label text-white">Phone:</label>
+                <input bind:value={userObject.phone} type="tel" class="form-control" aria-describedby="emailHelp">
+            </div>
+        </div>
+        <div class="row">
+            <div class="my-2 col-md-6">
+                <label class="form-label text-white">Id Code:</label>
+                <input bind:value={userObject.id_code} type="number" class="form-control"
+                       aria-describedby="emailHelp">
+            </div>
+            <div class="my-2 col-md-6">
+                <label class="form-label text-white">Student Code:</label>
+                <input bind:value={userObject.stud_code} type="number" class="form-control"
+                       aria-describedby="emailHelp">
+            </div>
+        </div>
+
+        <div class="my-2">
+            <label class="form-label text-white">Bio:</label>
+            <textarea bind:value={userObject.bio} class="form-control" aria-describedby="emailHelp"></textarea>
+        </div>
+        <div class="d-grid gap-2 mt-5">
+            <button class="btn btn-primary appointment-button" type="submit" on:click={updateProfile}>Save</button>
+        </div>
+    </div>
+</StudentAdminPanel>

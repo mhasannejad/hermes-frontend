@@ -1,0 +1,130 @@
+body {
+    background-color: #13101c !important;
+    font-family: Jost, serif;
+}
+
+.card {
+    border-radius: 25px !important;
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.card > * {
+    color: white !important;
+}
+
+.card-img {
+    border-radius: 25px !important;
+}
+
+.card:hover {
+    transition: background-color 0.2s ease;
+    background-color: #242034 !important;
+    cursor: pointer !important;
+}
+
+.no-card-hover:hover {
+    cursor: auto !important;
+}
+
+.no-card-hover-no-bg:hover {
+    cursor: auto !important;
+    background-color: inherit !important;
+
+}
+.no-card-hover-still-bg{
+    cursor: auto !important;
+    background-color: #242034 !important;
+}
+
+.card-text {
+    line-height: 2 !important;
+}
+
+
+.list-group, .list-group-item {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.readable {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 20px !important;
+}
+
+.link-light:hover, .link-light:link, .link-light:active {
+    text-decoration: none;
+    color: white;
+}
+
+nav {
+    height: 70px;
+}
+
+nav.bg-dark {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+label {
+    color: #13101c !important;
+}
+
+button {
+    border-width: 4px !important;
+    border-color: #1a152a !important;
+    background-color: #242034 !important;
+    color: white !important;
+    border-radius: 25px !important;
+    height: 50px;
+    min-width: 50px !important;
+}
+
+.section-header {
+    height: 70px;
+    margin: 25px 0;
+    padding: 25px 0;
+    color: white;
+    text-align: justify;
+}
+
+.white-children > * {
+    color: white !important;
+}
+
+.white-children {
+    background-color: #242034;
+}
+
+.dark-bg {
+    background-color: rgba(36, 32, 52, 0.6) !important;
+}
+
+.appointment-button {
+    background-color: dodgerblue !important;
+    color: white !important;
+    border-width: 0 !important;
+    min-width: 100px !important;
+}
+
+.cancel-button {
+    background-color: orangered !important;
+    color: white !important;
+
+}
+
+.bg-image > img {
+    border-radius: 25px !important;
+}
+
+.list-group-item-action {
+    color: white !important;
+}
+.profile-tab-item{
+    cursor: pointer !important;
+}
+.profile-edit-image{
+    width: 200px !important;
+    height: 200px !important;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: teal;
+    cursor: pointer !important;
+}
