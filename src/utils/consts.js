@@ -1,3 +1,3 @@
-export let baseUrl = 'http://127.0.0.1:8000/'
-export let baseStudentsUrl = 'http://127.0.0.1:8000/api/students/'
-export let baseProfsUrl = 'http://127.0.0.1:8000/api/professors/'
+export let baseUrl = `${import.meta.env.VITE_BASE_URL}`
+export let baseStudentsUrl = `${import.meta.env.VITE_BASE_URL}api/students/`
+export let baseProfsUrl = `${import.meta.env.VITE_BASE_URL}api/professors/`

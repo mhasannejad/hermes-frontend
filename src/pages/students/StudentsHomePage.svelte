@@ -1,9 +1,10 @@
 <script>
     import {onMount} from "svelte";
     import axios from "axios";
-    import {baseStudentsUrl} from "../../utils/consts.js";
+    import {baseStudentsUrl, baseUrl} from "../../utils/consts.js";
     import ProffessorVertical from "../../components/components/ProffessorVertical.svelte";
 
+    console.log(baseUrl)
     let homeData = {
         profs: []
     }
