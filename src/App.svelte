@@ -17,9 +17,11 @@
     import Appointments from "./pages/professors/panel/Appointments.svelte";
     import References from "./pages/professors/panel/References.svelte";
     import MainPanel from "./pages/students/panel/MainPanel.svelte";
-    import { SvelteToast } from '@zerodevx/svelte-toast'
+    import {SvelteToast} from '@zerodevx/svelte-toast'
     import ChangePassword from "./pages/students/panel/ChangePassword.svelte";
     import AllUserAppointments from "./pages/students/panel/AllUserAppointments.svelte";
+    import ProfessorChangePass from "./pages/professors/panel/ProfessorChangePass.svelte";
+
     const navigateToPanel = () => {
         if ($userD.user.mode === 2) {
             navigate('/panel/professor/')
@@ -75,8 +77,9 @@
                                 Profile
                             </button>
                             <button class="btn btn-outline-success col-6" type="submit" on:click={()=>{
-                        $userD = {}
                         navigate('/')
+                        $userD = {}
+
                     }}>Logout
                             </button>
                         </div>
@@ -105,6 +108,9 @@
         </Route>
         <Route path="/profile">
             <ProfileEdit/>
+        </Route>
+        <Route path="/password">
+            <ProfessorChangePass/>
         </Route>
         <Route path="/announces">
             <Announces/>

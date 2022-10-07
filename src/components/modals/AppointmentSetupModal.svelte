@@ -1,58 +1,53 @@
 <script>
     import axios from "axios";
-    import {baseUrl} from "../../utils/consts.js";
+    import {baseProfsUrl, baseUrl} from "../../utils/consts.js";
     import {userD} from "../../utils/auth.js";
+    import {TimePicker, TimePickerModal} from "svelte-time-picker";
+    import {DateInput} from "date-picker-svelte";
+    import {closeModal} from "svelte-modals";
+    import {toast} from "@zerodevx/svelte-toast";
 
     export let isOpen
-    let login_object = {
-        email: '',
-        password: ''
+    export let appointment
+
+    let date_time = new Date()
+    let appointmentObject = {
+        time: Math.round(date_time.getTime()/1000),
+        appointment_id:appointment.id
     }
-    const loginF = () => {
+    const setUp = () => {
         axios({
-            url: `${baseUrl}/api/token/`,
+            url: `${baseProfsUrl}appointments/setup/`,
             method: 'post',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + $userD.access
             },
-            data: JSON.stringify(login_object)
+            data: JSON.stringify(appointmentObject)
         }).then(r => {
             if (r.status === 200) {
-                axios({
-                    url: `${baseUrl}auth/data/`,
-                    method: 'post',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + r.data.access
-                    },
-
-                }).then(rs => {
-                    $userD = rs.data
-                    $userD.access = r.data.access
-                    $userD.refresh = r.data.refresh
-                    isOpen = false
-                })
+                toast.push('appointment setted up')
+                closeModal()
             }
             console.log(r.data)
         })
     }
 
+
+
 </script>
 {#if isOpen}
     <div class="modal">
         <div class="contents">
-            <form on:submit|preventDefault={loginF}>
-                <div class="mb-3">
-                    <label class="form-label">Email address</label>
-                    <input bind:value={login_object.email} type="email" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input bind:value={login_object.password} type="password" class="form-control">
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100">Login</button>
-            </form>
+            <h4 class="text-black">
+                pick a time:
+            </h4>
+            <div class="text-center my-5">
+                <DateInput bind:value={date_time} />
+            </div>
+            <button on:click={setUp} class="appointment-button">
+                SetUp Appointment
+            </button>
         </div>
     </div>
 {/if}
@@ -80,7 +75,7 @@
         min-width: 400px;
         border-radius: 6px;
         padding: 16px;
-        background: white;
+        background: #fff;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

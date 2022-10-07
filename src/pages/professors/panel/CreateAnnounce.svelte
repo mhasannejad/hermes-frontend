@@ -4,10 +4,9 @@
 
 <ProfessorAdminPanel>
     <div slot="title">
-        Appointments Requested by Students
+
     </div>
     <div slot="content">
 
     </div>
-
 </ProfessorAdminPanel>

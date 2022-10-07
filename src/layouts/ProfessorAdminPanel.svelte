@@ -11,19 +11,27 @@
 
 
                     <div class="d-flex justify-content-between align-items-center my-4 profile-tab-item">
-                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/student')}}>Personal Info</p>
+                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/professor/profile')}}>Personal Info</p>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between align-items-center my-4 profile-tab-item">
-                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/student/password')}}>Change Password</p>
+                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/professor/password')}}>Change Password</p>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between align-items-center my-4 profile-tab-item">
-                        <p class="mb-1" style="">Proposals</p>
+                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/professor/announces')}}>Announcements</p>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between align-items-center my-4 profile-tab-item">
-                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/student/appointments')}}>Appointments</p>
+                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/professor/posts')}}>Posts</p>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center my-4 profile-tab-item">
+                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/professor/appointments')}}>Appointments</p>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center my-4 profile-tab-item">
+                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/professor/references')}}>References</p>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between align-items-center my-4 profile-tab-item">

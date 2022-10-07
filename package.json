@@ -25,6 +25,7 @@
     "svelte-modals": "^1.2.0",
     "svelte-navigator": "^3.2.2",
     "svelte-simple-modal": "^1.4.1",
+    "svelte-time-picker": "^2.0.0",
     "sveltestrap": "^5.9.0"
   }
 }
