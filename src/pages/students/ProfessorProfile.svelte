@@ -6,6 +6,7 @@
     import {navigate} from "svelte-navigator";
     import {openModal} from "svelte-modals";
     import RequestAppointmentModal from "../../components/modals/RequestAppointmentModal.svelte";
+    import StudentProposalModal from "../../components/modals/StudentProposalModal.svelte";
 
     export let prof_id;
 
@@ -31,6 +32,10 @@
 
     const requestAppointment = () => {
         openModal(RequestAppointmentModal, {professor_id: prof_data.id})
+    }
+
+    const sendProposal = (announcement) => {
+        openModal(StudentProposalModal, {announcement: announcement})
     }
 </script>
 
@@ -188,8 +193,9 @@
                 <i class="bi bi-list text-light"></i> Announcement
             </h4>
             <div class="row">
-                <div class="col-md-3">
-                    {#each prof_data.announces as post}
+                {#each prof_data.announces as post}
+
+                    <div class="col-md-3">
                         <div class="card no-card-hover">
                             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                 <img src={baseUrl + post.cover} class="img-fluid" alt=""/>
@@ -199,17 +205,23 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">{post.title}</h5>
-                                <p class="card-text">{post.body.substr(0, 150)}</p>
-                                <div class="my2">
+                                <p class="card-text">{post.body.substring(0, 150)}</p>
+                                <div class="my-2">
                                     {#each post.skills as skill}
                                         <span class="badge text-bg-warning m-1">{skill.name}</span>
                                     {/each}
                                 </div>
-                                <button href="#!" class="appointment-button w-100 mt-3">View</button>
+                                <div class="d-flex justify-content-between">
+                                    <button href="#!" class="appointment-button col-md-5  mt-3">View</button>
+                                    <button on:click={()=>{
+                                        sendProposal(post)
+                                    }} href="#!" class="appointment-button col-md-5 w-50 mt-3">send proposal</button>
+                                </div>
                             </div>
                         </div>
-                    {/each}
-                </div>
+
+                    </div>
+                {/each}
             </div>
         </div>
     </section>

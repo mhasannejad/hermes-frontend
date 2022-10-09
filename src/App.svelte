@@ -21,6 +21,8 @@
     import ChangePassword from "./pages/students/panel/ChangePassword.svelte";
     import AllUserAppointments from "./pages/students/panel/AllUserAppointments.svelte";
     import ProfessorChangePass from "./pages/professors/panel/ProfessorChangePass.svelte";
+    import CreateAnnounce from "./pages/professors/panel/CreateAnnounce.svelte";
+    import AnnounceItem from "./pages/professors/panel/AnnounceItem.svelte";
 
     const navigateToPanel = () => {
         if ($userD.user.mode === 2) {
@@ -114,6 +116,12 @@
         </Route>
         <Route path="/announces">
             <Announces/>
+        </Route>
+        <Route path="/announces/:id" let:params >
+            <AnnounceItem id={params.id} />
+        </Route>
+        <Route path="/announces/create">
+            <CreateAnnounce />
         </Route>
         <Route path="/references">
             <References/>
