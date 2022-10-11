@@ -1,10 +1,11 @@
 <script>
     import StudentAdminPanel from "../../../layouts/StudentAdminPanel.svelte";
     import axios from "axios";
-    import {baseStudentsUrl} from "../../../utils/consts.js";
+    import {baseProfsUrl, baseStudentsUrl, baseUrl} from "../../../utils/consts.js";
     import {userD} from "../../../utils/auth.js";
     import {toast} from "@zerodevx/svelte-toast";
     import {onMount} from "svelte";
+    import {navigate} from "svelte-navigator";
 
     let userObject = {
         name: '',
@@ -59,27 +60,22 @@
         reader.onload = async e => {
             avatar = e.target.result
 
-            const obj = {
-                hello: "world"
-            };
-            const json = JSON.stringify(obj);
 
-            const data = new FormData();
-            data.append("image", avatar);
-
-            await fetch(`${baseStudentsUrl}profile/update/avatar/file/`, {
-                method: "POST",
-                headers: [["Content-Type", "multipart/form-data"], ['Authorization', 'Bearer ' + $userD.access]],
-                body: data
+            axios({
+                url: `${baseStudentsUrl}profile/update/avatar/`,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + $userD.access
+                },
+                data: JSON.stringify({avatar: avatar})
+            }).then(r => {
+                if (r.status === 200) {
+                    toast.push('avatar updated')
+                    $userD.user = r.data
+                }
+                console.log(r.data)
             })
-                .then(response => {
-                    // Successfully uploaded
-                    console.log(response.json())
-                })
-                .catch(error => {
-                    // Upload failed
-                    console.log(error)
-                });
 
         };
     }
@@ -99,10 +95,17 @@
                      fileinput.click()
                  }}>
             {:else }
-                <img src="https://gdb.rferl.org/FD93574C-4AF6-4774-928A-B94D300111A5_w408_r1_s.jpg" alt=""
-                     class="rounded-circle profile-edit-image m-5" on:click={()=>{
+                {#if $userD.user.avatar}
+                    <img src={baseUrl+$userD.user.avatar} alt=""
+                         class="rounded-circle profile-edit-image m-5" on:click={()=>{
                      fileinput.click()
                  }}>
+                {:else }
+                    <img src="https://www.nicepng.com/png/detail/73-730154_open-default-profile-picture-png.png" alt=""
+                         class="rounded-circle profile-edit-image m-5" on:click={()=>{
+                     fileinput.click()
+                 }}>
+                {/if}
             {/if}
         </div>
         <div class="row">

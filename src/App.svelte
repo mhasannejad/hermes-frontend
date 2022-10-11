@@ -129,6 +129,7 @@
         <Route path="/posts">
             <Posts/>
         </Route>
+
         <Route path="/appointments">
             <Appointments/>
         </Route>

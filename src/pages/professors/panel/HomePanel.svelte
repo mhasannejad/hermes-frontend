@@ -2,7 +2,7 @@
     import ProfessorAdminPanel from "../../../layouts/ProfessorAdminPanel.svelte";
     import {userD} from "../../../utils/auth.js";
     import axios from "axios";
-    import {baseStudentsUrl} from "../../../utils/consts.js";
+    import {baseStudentsUrl, baseUrl} from "../../../utils/consts.js";
     import {toast} from "@zerodevx/svelte-toast";
 
     let userObject = {
@@ -45,8 +45,32 @@
     let avatar, fileinput;
 
     console.log(userObject)
-    const onFileSelected = () => {
+    const onFileSelected = async (e) => {
+        let image = e.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(image);
 
+        reader.onload = async e => {
+            avatar = e.target.result
+
+
+            axios({
+                url: `${baseStudentsUrl}profile/update/avatar/`,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + $userD.access
+                },
+                data: JSON.stringify({avatar: avatar})
+            }).then(r => {
+                if (r.status === 200) {
+                    toast.push('avatar updated')
+                    $userD.user = r.data
+                }
+                console.log(r.data)
+            })
+
+        };
     }
 </script>
 
@@ -64,10 +88,17 @@
                      fileinput.click()
                  }}>
             {:else }
-                <img src="https://gdb.rferl.org/FD93574C-4AF6-4774-928A-B94D300111A5_w408_r1_s.jpg" alt=""
-                     class="rounded-circle profile-edit-image m-5" on:click={()=>{
+                {#if $userD.user.avatar}
+                    <img src={baseUrl+$userD.user.avatar} alt=""
+                         class="rounded-circle profile-edit-image m-5" on:click={()=>{
                      fileinput.click()
                  }}>
+                {:else }
+                    <img src="https://www.nicepng.com/png/detail/73-730154_open-default-profile-picture-png.png" alt=""
+                         class="rounded-circle profile-edit-image m-5" on:click={()=>{
+                     fileinput.click()
+                 }}>
+                {/if}
             {/if}
         </div>
         <div class="row">

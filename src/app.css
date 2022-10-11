@@ -159,3 +159,13 @@ button {
 .announce-cover{
     max-width: 100%;
 }
+
+
+.search-bar > input{
+    background-color: #242034 !important;
+    color: white !important;
+}
+.search-bar{
+    border-color: #1a152a !important;
+
+}
