@@ -2,8 +2,12 @@
     import ProfessorAdminPanel from "../../../layouts/ProfessorAdminPanel.svelte";
     import {userD} from "../../../utils/auth.js";
     import axios from "axios";
-    import {baseStudentsUrl, baseUrl} from "../../../utils/consts.js";
+    import {baseProfsUrl, baseStudentsUrl, baseUrl} from "../../../utils/consts.js";
     import {toast} from "@zerodevx/svelte-toast";
+    import {navigate} from "svelte-navigator";
+    import {openModal} from "svelte-modals";
+    import AddContactModal from "../../../components/modals/AddContactModal.svelte";
+    import {onMount} from "svelte";
 
     let userObject = {
         name: '',
@@ -12,6 +16,9 @@
         phone: '',
         bio: '',
     }
+
+    let contacts = []
+
 
     userD.subscribe(v => {
         userObject = {
@@ -22,6 +29,11 @@
             bio: v.user.bio,
         }
     })
+
+    onMount(()=>{
+        getContacts()
+    })
+
     const updateProfile = () => {
         axios({
             url: `${baseStudentsUrl}profile/update/`,
@@ -41,7 +53,19 @@
 
 
     }
-
+    const getContacts = () => {
+        axios({
+            url: `${baseProfsUrl}contacts/all/`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + $userD.access
+            }
+        }).then(r => {
+            contacts = r.data
+            console.log(r)
+        })
+    }
     let avatar, fileinput;
 
     console.log(userObject)
@@ -131,6 +155,36 @@
         </div>
         <div class="d-grid gap-2 mt-5">
             <button class="btn btn-primary appointment-button" type="submit" on:click={updateProfile}>Save</button>
+        </div>
+
+        <hr>
+
+        <div class="d-flex justify-content-between">
+            <p class="my-4">Your Contact List</p>
+            <button class="btn appointment-button" on:click={()=>{
+                openModal(AddContactModal,{})
+            }}>
+                add +
+            </button>
+        </div>
+
+        <div class="row">
+            {#each contacts as contact}
+                <div class="col-md-3 ">
+                    <div class=" card m-1 h-100">
+                        <div class="text-center">
+                            <img src={baseUrl+contact.type.icon} class=" contact-icon" alt="...">
+                        </div>
+                        <div class="card-body ">
+                            <h5 class="card-title text-center">{contact.name}</h5>
+                            <p class="card-text text-center">{contact.value}</p>
+                            <a href={contact.value} class="btn btn-primary w-100">Go Check</a>
+                        </div>
+
+                    </div>
+                </div>
+
+            {/each}
         </div>
     </div>
 </ProfessorAdminPanel>
