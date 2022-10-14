@@ -40,7 +40,7 @@
 <div class="container">
     <div class="d-flex justify-content-center">
         <div class="input-group  input-group-lg my-5 search-bar">
-            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <span class="input-group-text"><i class="bi bi-search text-white"></i></span>
             <input
                     type="text"
                     class="form-control"

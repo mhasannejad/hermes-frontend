@@ -23,6 +23,7 @@
     import ProfessorChangePass from "./pages/professors/panel/ProfessorChangePass.svelte";
     import CreateAnnounce from "./pages/professors/panel/CreateAnnounce.svelte";
     import AnnounceItem from "./pages/professors/panel/AnnounceItem.svelte";
+    import Proposals from "./pages/students/panel/Proposals.svelte";
 
     const navigateToPanel = () => {
         if ($userD.user.mode === 2) {
@@ -46,9 +47,6 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <Link class="nav-link" to="/">Home</Link>
-                    </li>
-                    <li class="nav-item">
-                        <Link class="nav-link" to="/professors">Professors</Link>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link">Students</a>
@@ -104,47 +102,54 @@
     <Route path="/post/:id" let:params>
         <PostView id={params.id}/>
     </Route>
-    <Route path="/panel/professor/*">
-        <Route path="/">
-            <HomePanel/>
-        </Route>
-        <Route path="/profile">
-            <ProfileEdit/>
-        </Route>
-        <Route path="/password">
-            <ProfessorChangePass/>
-        </Route>
-        <Route path="/announces">
-            <Announces/>
-        </Route>
-        <Route path="/announces/:id" let:params >
-            <AnnounceItem id={params.id} />
-        </Route>
-        <Route path="/announces/create">
-            <CreateAnnounce />
-        </Route>
-        <Route path="/references">
-            <References/>
-        </Route>
-        <Route path="/posts">
-            <Posts/>
-        </Route>
+    {#if $userD.user.mode === 2}
+        <Route path="/panel/professor/*">
+            <Route path="/">
+                <HomePanel/>
+            </Route>
+            <Route path="/profile">
+                <ProfileEdit/>
+            </Route>
+            <Route path="/password">
+                <ProfessorChangePass/>
+            </Route>
+            <Route path="/announces">
+                <Announces/>
+            </Route>
+            <Route path="/announces/:id" let:params>
+                <AnnounceItem id={params.id}/>
+            </Route>
+            <Route path="/announces/create">
+                <CreateAnnounce/>
+            </Route>
+            <Route path="/references">
+                <References/>
+            </Route>
+            <Route path="/posts">
+                <Posts/>
+            </Route>
 
-        <Route path="/appointments">
-            <Appointments/>
+            <Route path="/appointments">
+                <Appointments/>
+            </Route>
         </Route>
-    </Route>
-    <Route path="/panel/student/*">
-        <Route path="/">
-            <MainPanel/>
+    {/if}
+    {#if $userD.user.mode === 1}
+        <Route path="/panel/student/*">
+            <Route path="/">
+                <MainPanel/>
+            </Route>
+            <Route path="/password">
+                <ChangePassword/>
+            </Route>
+            <Route path="/appointments">
+                <AllUserAppointments/>
+            </Route>
+            <Route path="/proposals">
+                <Proposals/>
+            </Route>
         </Route>
-        <Route path="/password">
-            <ChangePassword/>
-        </Route>
-        <Route path="/appointments">
-            <AllUserAppointments/>
-        </Route>
-    </Route>
+    {/if}
 </Router>
 <Modals>
     <div

@@ -19,7 +19,7 @@ import {navigate} from "svelte-navigator";
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between align-items-center my-4 profile-tab-item">
-                        <p class="mb-1" style="">Proposals</p>
+                        <p class="mb-1" style="" on:click={()=>{navigate('/panel/student/proposals')}}>Proposals</p>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between align-items-center my-4 profile-tab-item">

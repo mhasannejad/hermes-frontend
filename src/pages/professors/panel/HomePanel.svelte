@@ -18,6 +18,7 @@
     }
 
     let contacts = []
+    let locations = []
 
 
     userD.subscribe(v => {
@@ -30,8 +31,9 @@
         }
     })
 
-    onMount(()=>{
+    onMount(() => {
         getContacts()
+        getLocations()
     })
 
     const updateProfile = () => {
@@ -66,6 +68,19 @@
             console.log(r)
         })
     }
+    const getLocations = () => {
+        axios({
+            url: `${baseProfsUrl}locations/all/`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + $userD.access
+            }
+        }).then(r => {
+            locations = r.data
+            console.log(r)
+        })
+    }
     let avatar, fileinput;
 
     console.log(userObject)
@@ -96,6 +111,25 @@
 
         };
     }
+    const setLocation = (location_id) => {
+        axios({
+            url: `${baseProfsUrl}profile/update/location/`,
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + $userD.access
+            },
+            data: JSON.stringify({
+                location_id: location_id
+            })
+        }).then(r => {
+            if (r.status === 200) {
+                toast.push('location changed')
+                $userD.user.location
+            }
+            console.log(r.data)
+        })
+    }
 </script>
 
 <ProfessorAdminPanel>
@@ -103,6 +137,26 @@
         <h3 class="my-1">personal information</h3>
     </div>
     <div slot="content">
+        <h3>set Your Location</h3>
+        <div class="row">
+            {#each locations as location}
+                <div class="col-md-3 ">
+                    <div class=" card m-1 h-100">
+                        <div class="text-center">
+                            <img src={baseUrl+location.icon} class=" contact-icon" alt="...">
+                        </div>
+                        <div class="card-body ">
+                            <h5 class="card-title text-center my-2">{location.name}</h5>
+                            <a class="btn btn-primary w-100" on:click={()=>{
+                                setLocation(location.id)
+                            }}>set</a>
+                        </div>
+
+                    </div>
+                </div>
+            {/each}
+        </div>
+
         <div class="d-flex justify-content-center">
             <input style="display: none" name="avatar" bind:this={fileinput} type="file" accept=".jpg, .jpeg, .png"
                    on:change={(e)=>onFileSelected(e)}>

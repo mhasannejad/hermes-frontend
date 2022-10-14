@@ -1,6 +1,6 @@
 body {
     background-color: #13101c !important;
-    font-family: Jost, serif;
+    font-family: Jost, serif !important;
 }
 
 .card {
@@ -162,13 +162,17 @@ button {
 
 
 .search-bar > input{
-    background-color: #242034 !important;
+    background-color: #1a152a !important;
     color: white !important;
 }
 .search-bar{
     border-color: #1a152a !important;
 
 }
+.search-bar > span{
+    background-color: #1a152a !important;
+}
+
 .contact-icon{
     height: 100px;
     width: 100px;

@@ -66,7 +66,7 @@
                             <ul class="list-group list-group-flush rounded-3  white-children">
                                 {#each prof_data.contacts as contact}
                                     <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                        <img src={baseUrl + contact.type.icon} alt="" class="img-thumbnail" height="40"
+                                        <img src={baseUrl + contact.type.icon} alt="" class="" height="40"
                                              width="40">
 
                                         <a class="link-light " href={contact.value}>{contact.name}</a>
